@@ -8,7 +8,6 @@ import os
 import scanlib.js as js
 import json
 import googlesearch
-import google
 
 
 
