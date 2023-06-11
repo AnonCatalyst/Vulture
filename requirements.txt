@@ -1,0 +1,5 @@
+colorama
+requests
+google
+googlesearch-python
+bs4
