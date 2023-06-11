@@ -15,4 +15,4 @@ cd Vulture
 pip install -r requriments.txt
 python vulture.py
 ```
-> [Vulture] Has a total of 64 urls to search with and I plan to add more soon.
+> [ Vulture ] Has a total of 64 urls to search with and I plan to add more soon.
