@@ -6,9 +6,9 @@ it aswell searches for the username with a advanced google search method.
 Vulture is a very good tool for osint Enthusiasts and forensics professionals.
 and has been tested on Windows/Android/Linux for all around user support.
 
+![My Image](img/screenshot.png)
 
 # How to use:
-
 ```
 git clone https://github.com/AnonCatalyst/Vulture.git
 cd Vulture
