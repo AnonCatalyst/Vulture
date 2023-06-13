@@ -1,14 +1,14 @@
 import requests
-import socket
 from colorama import Fore, Back, Style
-from bs4 import BeautifulSoup
 import time
 import sys
 import os
 import scanlib.js as js
-import json
 import googlesearch
+import threading
+import urllib3
 
+urllib3.disable_warnings()
 
 
 #Banner
@@ -76,35 +76,47 @@ if __name__ == '__main__':
 #Username Search
 print(f" {Fore.RED}〘{Fore.WHITE} Username Search{Fore.YELLOW}: {Fore.CYAN}{username}{Fore.RED} 〙\n")
 
-from requests.exceptions import TooManyRedirects
-def username_search(username):
-    for url in open("urls.txt", "r").readlines():
-        url = url.strip() + username
-        try:
-            response = requests.get(url)
-            status_code = response.status_code
-            if status_code == 200:
-                print(f"{Fore.CYAN}• {Fore.BLUE}{username} {Fore.RED}| {Fore.YELLOW}[{Fore.GREEN}✓{Fore.YELLOW}]{Fore.WHITE} URL{Fore.YELLOW}: {Fore.GREEN}{url}{Fore.WHITE} {status_code}")
-            else:
-                if status_code == 404:
+with open("urls.txt", "r") as f:
+    url_list = (x.strip() for x in f.readlines())
+
+def username_search(username: str, url: str):
+            try:
+                s = requests.Session()
+                response = s.get(url)
+                status_code = response.status_code
+                if status_code == 200:
+                    print(f"{Fore.CYAN}• {Fore.BLUE}{username} {Fore.RED}| {Fore.YELLOW}[{Fore.GREEN}✓{Fore.YELLOW}]{Fore.WHITE} URL{Fore.YELLOW}: {Fore.GREEN}{url}{Fore.WHITE} {status_code}")
+                elif status_code == 404:
                     print(f"\n {Fore.CYAN}╘ {Fore.WHITE}Profile page {Fore.RED}not found{Fore.YELLOW}:{Fore.RED} {status_code}{Fore.WHITE}")
                     print(f"{Fore.YELLOW}[{Fore.RED}×{Fore.YELLOW}] {Fore.WHITE}URL{Fore.YELLOW}: {Fore.MAGENTA}{url}{Fore.WHITE}")
+                    
 
-        except requests.exceptions.TooManyRedirects as err:
-            print(f"\n{Fore.RED}╘{Fore.WHITE} Too many redirects{Fore.RED} !{Fore.WHITE}")
-        except ValueError:
-            print(f"\n{Fore.RED}╘{Fore.WHITE} Invalid username{Fore.YELLOW}:{Fore.RED} {username}{Fore.WHITE}")
-        except IOError:
-            print(f"\n{Fore.RED}╘{Fore.WHITE} File not found{Fore.YELLOW}:{Fore.RED} {url}{Fore.WHITE}")
+            except requests.exceptions.TooManyRedirects as err:
+                print(f"\n{Fore.RED}╘{Fore.WHITE} Too many redirects{Fore.RED} !{Fore.WHITE}")
+            except ValueError:
+                print(f"\n{Fore.RED}╘{Fore.WHITE} Invalid username{Fore.YELLOW}:{Fore.RED} {username}{Fore.WHITE}")
+            except IOError:
+                print(f"\n{Fore.RED}╘{Fore.WHITE} File not found{Fore.YELLOW}:{Fore.RED} {url}{Fore.WHITE}")
+
+def main(username) -> str:
+    threads = []
+    for url in url_list:
+        url = url + username
+        t = threading.Thread(target=username_search, args=(username, url))
+        t.start()
+        threads.append(t)
+    for thread in threads:
+        thread.join()
 
 if __name__ == "__main__":
-    username_search(username)
+    try:
+        main(username)
+    except (urllib3.exceptions.MaxRetryError, requests.exceptions.RequestException):
+        pass
+    
 
 
 print(f"\n {Fore.RED}〘 {Fore.WHITE}Domains Associated With{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
-
-
-
 
 
 # Username association
@@ -140,9 +152,3 @@ if choice == "y":
     print("Results saved to usrassosiation.txt")
 else:
     print("Results not saved")
-
-
-
-
-
-
