@@ -108,6 +108,7 @@ def main(username) -> str:
         threads.append(t)
     for thread in threads:
         thread.join()
+        time.sleep(0.5)
 
 if __name__ == "__main__":
     try:
@@ -142,6 +143,7 @@ else:
     print(f"{Fore.CYAN}> {Fore.RED}Results not saved{Fore.YELLOW}...")
     for urlx in googlesearch.search(username):
         print(f"{Fore.CYAN}⊶ :{Fore.WHITE}",urlx)
+
 
 
 
