@@ -18,4 +18,5 @@ python vulture.py
 > [ Vulture ] Has a total of 64 urls to search with and I plan to add more soon.
 
 # Issues
+> added randomized user agent with connection error handler as an attempt to fix the 429 too many requests issue. i also added platform detection so that if the user is on arch then it will not print the banner
 Problem with error handle for too many google search requests. currently my main priority to fix
