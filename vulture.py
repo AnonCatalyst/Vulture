@@ -8,26 +8,40 @@ import googlesearch
 import threading
 import urllib3
 import logging
+import urllib.parse
+import random
+import platform
 
 urllib3.disable_warnings()
 
-
 #Banner
-print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀
+banner = print(f"""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣾⣿⣿⣿⣶⡄⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⠋⠉⢻⣤⣀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣿⣿⣿⣿⣿⣷⣶⣿⣿⣿⣷⡄⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠉⠃⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀  Platform Detection⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠋⠀⠀⠀{platform.system()} {platform.release()}⠀⠀⠀
 ⠀⠀⠀⠀⠀⠉⠩⠽⢿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⢀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀Project: Vulture⠀⠀⠀⠀⠀⠀
 ⠀⠀⣀⣴⣾⣿⣿⣿⣿⠟⠁⠙⢿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀Category: Username Search⠀⠀⠀⠀⠀⠀
 ⠀⠈⣩⣿⣿⣿⡿⠋⠁⠀⠀⠀⠀⠻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀Developer: AnonCatalyst
 ⠀⠈⠉⠈⠟⠉         ⣀⣽⣦⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                ⠉⠉⠉⠉⠉⠉⠁""")
+
+#Platform Detection
+def check_platform():
+    if platform.system() == "Arch":
+        return False
+    elif platform.system() == "Debian" or platform.system() == "Windows":
+        return True
+def print_banner():
+    print(banner)
+    #print(f"You are running {platform.system()} {platform.release()}")
+if check_platform():
+    print_banner()
 
 
 #Input
@@ -77,38 +91,36 @@ if __name__ == '__main__':
 #Username Search
 print(f" {Fore.RED}〘{Fore.WHITE} Username Search{Fore.YELLOW}: {Fore.CYAN}{username}{Fore.RED} 〙\n")
 
+
 with open("urls.txt", "r") as f:
     url_list = (x.strip() for x in f.readlines())
-
 def username_search(username: str, url: str):
-            try:
-                s = requests.Session()
-                response = s.get(url)
-                status_code = response.status_code
-                if status_code == 200:
-                    print(f"{Fore.CYAN}• {Fore.BLUE}{username} {Fore.RED}| {Fore.YELLOW}[{Fore.GREEN}✓{Fore.YELLOW}]{Fore.WHITE} URL{Fore.YELLOW}: {Fore.GREEN}{url}{Fore.WHITE} {status_code}")
-                elif status_code == 404:
-                    print(f" {Fore.YELLOW}[{Fore.RED}×{Fore.YELLOW}] {Fore.WHITE}Profile page {Fore.RED}not found{Fore.YELLOW}:{Fore.RED} {status_code}{Fore.YELLOW}: {Fore.MAGENTA}{url}{Fore.WHITE}")
-                    #print(f"{Fore.YELLOW}[{Fore.RED}×{Fore.YELLOW}] {Fore.WHITE}URL{Fore.YELLOW}: {Fore.MAGENTA}{url}{Fore.WHITE}")
-                    
+    try:
+        s = requests.Session()
+        s.headers.update({"User-Agent": f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{random.randint(98, 100)}.0.{random.randint(4840, 4849)}.{random.randint(80, 89)} Safari/537.36"})
+        response = s.get(urllib.parse.urljoin(url, username))
+        status_code = response.status_code
+        if status_code == 200:
+            print(f"{Fore.CYAN}• {Fore.BLUE}{username} {Fore.RED}| {Fore.YELLOW}[{Fore.GREEN}✓{Fore.YELLOW}]{Fore.WHITE} URL{Fore.YELLOW}: {Fore.GREEN}{url}{Fore.WHITE} {status_code}")
+        elif status_code == 404:
+            print(f" {Fore.YELLOW}[{Fore.RED}×{Fore.YELLOW}] {Fore.WHITE}Profile page {Fore.RED}not found{Fore.YELLOW}:{Fore.RED} {status_code}{Fore.YELLOW}: {Fore.MAGENTA}{url}{Fore.WHITE}")
+    except requests.exceptions.ConnectionError:
+        print(f"{Fore.RED}╘{Fore.WHITE} Connection error{Fore.RED} !")
+    except requests.exceptions.TooManyRedirects as err:
+        print(f"\n{Fore.RED}╘{Fore.WHITE} Too many redirects{Fore.RED} !")
 
-            except requests.exceptions.TooManyRedirects as err:
-                print(f"\n{Fore.RED}╘{Fore.WHITE} Too many redirects{Fore.RED} !{Fore.WHITE}")
-            except ValueError:
-                print(f"\n{Fore.RED}╘{Fore.WHITE} Invalid username{Fore.YELLOW}:{Fore.RED} {username}{Fore.WHITE}")
-            except IOError:
-                print(f"\n{Fore.RED}╘{Fore.WHITE} File not found{Fore.YELLOW}:{Fore.RED} {url}{Fore.WHITE}")
-
-def main(username) -> str:
+#threading
+def main(username):
     threads = []
     for url in url_list:
-        url = url + username
+        url = urllib.parse.urljoin(url, username)
         t = threading.Thread(target=username_search, args=(username, url))
         t.start()
         threads.append(t)
     for thread in threads:
         thread.join()
         time.sleep(0.5)
+
 
 if __name__ == "__main__":
     try:
@@ -133,7 +145,7 @@ for link in googlesearch.search(username):
 
 import googlesearch
 print(f"\n {Fore.RED}〘 {Fore.WHITE}Google Search For{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
-choice = input(f"\n{Fore.YELLOW}[{Fore.CYAN}?{Fore.YELLOW}]{Fore.WHITE} Do you want to print the results? {Fore.CYAN}({Fore.WHITE}y{Fore.MAGENTA}/{Fore.WHITE}n{Fore.CYAN}){Fore.YELLOW}:{Fore.WHITE} ").lower()
+choice = input(f"{Fore.YELLOW}[{Fore.CYAN}?{Fore.YELLOW}]{Fore.WHITE} Do you want to print the results? {Fore.CYAN}({Fore.WHITE}y{Fore.MAGENTA}/{Fore.WHITE}n{Fore.CYAN}){Fore.YELLOW}:{Fore.WHITE} ").lower()
 if choice == "y":
     with open("usrassosiation.txt", "w") as f:
         for urlx in googlesearch.search(username):
