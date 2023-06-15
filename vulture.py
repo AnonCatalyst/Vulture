@@ -36,27 +36,27 @@ print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀�
 username = input("\nEnter a username: ")
 
 
-#Animation 
+#Animation
 def load_animation():
     load_str = f"vulture is launching username search..."
     ls_len = len(load_str)
     animation = "|/-\\"
     anicount = 0
-    counttime = 0        
-    i = 0                     
-  
+    counttime = 0
+    i = 0
+
     while (counttime != 100):
-        time.sleep(0.075) 
-        load_str_list = list(load_str) 
+        time.sleep(0.075)
+        load_str_list = list(load_str)
         x = ord(load_str_list[i])
-        y = 0                             
-        if x != 32 and x != 46:             
+        y = 0
+        if x != 32 and x != 46:
             if x>90:
                 y = x-32
             else:
                 y = x + 32
             load_str_list[i]= chr(y)
-        res =''             
+        res =''
         for j in range(ls_len):
             res = res + load_str_list[j]
         sys.stdout.write("\r"+res + animation[anicount])
@@ -66,13 +66,13 @@ def load_animation():
         anicount = (anicount + 1)% 4
         i =(i + 1)% ls_len
         counttime = counttime + 1
-        
+
     if os.name =="nt":
         os.system("cls")
     else:
         os.system("clear")
-        
-if __name__ == '__main__': 
+
+if __name__ == '__main__':
     load_animation()
 
 
@@ -85,14 +85,14 @@ with open("urls.txt", "r") as f:
 def username_search(username: str, url: str):
             try:
                 s = requests.Session()
-                response = s.get(url)
+                response = s.get(url, headers=header)
                 status_code = response.status_code
                 if status_code == 200:
                     print(f"{Fore.CYAN}• {Fore.BLUE}{username} {Fore.RED}| {Fore.YELLOW}[{Fore.GREEN}✓{Fore.YELLOW}]{Fore.WHITE} URL{Fore.YELLOW}: {Fore.GREEN}{url}{Fore.WHITE} {status_code}")
                 elif status_code == 404:
                     print(f"\n {Fore.CYAN}╘ {Fore.WHITE}Profile page {Fore.RED}not found{Fore.YELLOW}:{Fore.RED} {status_code}{Fore.WHITE}")
                     print(f"{Fore.YELLOW}[{Fore.RED}×{Fore.YELLOW}] {Fore.WHITE}URL{Fore.YELLOW}: {Fore.MAGENTA}{url}{Fore.WHITE}")
-                    
+
 
             except requests.exceptions.TooManyRedirects as err:
                 print(f"\n{Fore.RED}╘{Fore.WHITE} Too many redirects{Fore.RED} !{Fore.WHITE}")
@@ -141,4 +141,4 @@ if __name__ == "__main__":
         main(username)
     except (urllib3.exceptions.MaxRetryError, requests.exceptions.RequestException):
         pass
-    
+
