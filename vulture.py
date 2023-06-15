@@ -1,5 +1,6 @@
-import requests
 from colorama import Fore, Back, Style
+from Modules import agents
+import requests
 import time
 import sys
 import os
@@ -10,6 +11,8 @@ import urllib3
 
 urllib3.disable_warnings()
 
+user_agent_ = agents.get_useragent()
+header = {"User-Agent": user_agent_}
 
 #Banner
 print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -98,6 +101,31 @@ def username_search(username: str, url: str):
             except IOError:
                 print(f"\n{Fore.RED}╘{Fore.WHITE} File not found{Fore.YELLOW}:{Fore.RED} {url}{Fore.WHITE}")
 
+
+print(f"\n {Fore.RED}〘 {Fore.WHITE}Domains Associated With{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
+
+
+# Username association
+try:
+    for link in googlesearch.search(username):
+        if username in link:
+            print(f"{Fore.CYAN}⊶ {Fore.WHITE}", link)
+except google.cloud.exceptions.TooManyRequests:
+    print(f"{Fore.RED}[!] Too many requests, please try again later.{Fore.WHITE}")
+else:
+    print(f"No Other Domains Associated With: {username}")
+
+print(f"\n {Fore.RED}〘 {Fore.WHITE}Google Search For{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
+choice = input(f"\n{Fore.YELLOW}[{Fore.CYAN}?{Fore.YELLOW}]{Fore.WHITE} Do you want to print the results? {Fore.CYAN}({Fore.WHITE}y{Fore.MAGENTA}/{Fore.WHITE}n{Fore.CYAN}){Fore.YELLOW}:{Fore.WHITE} ").lower()
+if choice == "y":
+    with open("usrassosiation.txt", "w") as f:
+        for urlx in googlesearch.search(username):
+            f.write(f"{urlx}\n")
+            print(f"{Fore.CYAN}⊶ :{Fore.WHITE}",urlx)
+    print("Results saved to usrassosiation.txt")
+else:
+    print("Results not saved")
+
 def main(username) -> str:
     threads = []
     for url in url_list:
@@ -114,41 +142,3 @@ if __name__ == "__main__":
     except (urllib3.exceptions.MaxRetryError, requests.exceptions.RequestException):
         pass
     
-
-
-print(f"\n {Fore.RED}〘 {Fore.WHITE}Domains Associated With{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
-
-
-# Username association
-try:
-    for link in googlesearch.search(username):
-        if username in link:
-            print(f"{Fore.CYAN}⊶ {Fore.WHITE}", link)
-except google.cloud.exceptions.TooManyRequests:
-    print(f"{Fore.RED}[!] Too many requests, please try again later.{Fore.WHITE}")
-else:
-    print(f"No Other Domains Associated With: {username}")
-
-
-
-#Google Search
-#print(f"\n {Fore.RED}〘 {Fore.WHITE}Google Search For{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
-#for urlx in googlesearch.search(username):
-#    print(f"{Fore.CYAN}⊶ :{Fore.WHITE}",urlx)
-
-
-
-
-
-
-import googlesearch
-print(f"\n {Fore.RED}〘 {Fore.WHITE}Google Search For{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
-choice = input(f"\n{Fore.YELLOW}[{Fore.CYAN}?{Fore.YELLOW}]{Fore.WHITE} Do you want to print the results? {Fore.CYAN}({Fore.WHITE}y{Fore.MAGENTA}/{Fore.WHITE}n{Fore.CYAN}){Fore.YELLOW}:{Fore.WHITE} ").lower()
-if choice == "y":
-    with open("usrassosiation.txt", "w") as f:
-        for urlx in googlesearch.search(username):
-            f.write(f"{urlx}\n")
-            print(f"{Fore.CYAN}⊶ :{Fore.WHITE}",urlx)
-    print("Results saved to usrassosiation.txt")
-else:
-    print("Results not saved")
