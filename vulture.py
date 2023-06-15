@@ -12,6 +12,14 @@ import urllib.parse
 import random
 import platform
 
+
+import sys
+sys.tracebacklimit = 0
+try:
+    raise Exception('This is an exception')
+except Exception:
+    pass
+
 urllib3.disable_warnings()
 
 #Banner
@@ -42,6 +50,8 @@ def print_banner():
     #print(f"You are running {platform.system()} {platform.release()}")
 if check_platform():
     print_banner()
+
+
 
 
 #Input
@@ -122,6 +132,7 @@ def main(username):
         time.sleep(0.5)
 
 
+
 if __name__ == "__main__":
     try:
         main(username)
@@ -130,12 +141,34 @@ if __name__ == "__main__":
 
     
 print(f"\n {Fore.RED}〘 {Fore.WHITE}Domains Associated With{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
-#Username association
+import requests
+from fake_useragent import UserAgent
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+# Create a user agent object
+user_agent = UserAgent()
+# Create a requests session object
+session = requests.Session()
+# Add a retry strategy to the session
+retry = Retry(
+    total=5,
+    backoff_factor=1,
+    status_forcelist=[429],
+)
+adapter = HTTPAdapter(max_retries=retry)
+session.mount("https://", adapter)
+session.mount("http://", adapter)
+# Get the username association
 for link in googlesearch.search(username):
     if username in link:
         print(f"{Fore.CYAN}⊶ {Fore.WHITE}", link)
-        if requests.get(link).status_code == 429:
-            print(f"{Fore.RED}[!] Too many requests, please try again later.{Fore.WHITE}")
+        # Make a request to the link using the randomized user agent and proxy
+        response = session.get(link, headers={"User-Agent": user_agent.random}, proxies={"http": proxy.get_random_proxy(), "https": proxy.get_random_proxy()})
+        # Check the status code of the response
+        if response.status_code == 200:
+            print(f"{Fore.GREEN}[+] Success!{Fore.WHITE}")
+        else:
+            print(f"{Fore.RED}[!] Error: {response.status_code}{Fore.WHITE}")
 
 
 #Google Search
@@ -155,6 +188,7 @@ else:
     print(f"{Fore.CYAN}> {Fore.RED}Results not saved{Fore.YELLOW}...")
     for urlx in googlesearch.search(username):
         print(f"{Fore.CYAN}⊶ :{Fore.WHITE}",urlx)
+
 
 
 
