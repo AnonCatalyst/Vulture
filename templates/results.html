@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vulture</title>
+</head>
+<body style="background-color: black; color: white">
+  <h1>Vulture</h1>
+  <p>Search Results:</p>
+  <ul>
+    {% for result in results %}
+      {% if result.status_code == 200 %}
+        <li style="color: green">
+          <a href="{{ result.url }}" style="color: gray">{{ result.url }}</a>
+          <span style="color: magenta">{{ result.status_code }}</span>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</body>
+</html>
