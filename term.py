@@ -58,7 +58,7 @@ if check_platform():
 
 
 #Input
-username = input("\nEnter a username{Fore.YELLOW}:{Fore.BLUE} ")
+username = input(f"\nEnter a username{Fore.YELLOW}:{Fore.BLUE} ")
 
 
 #Animation 
