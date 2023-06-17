@@ -161,7 +161,7 @@ else:
 
 import googlesearch
 print(f"\n {Fore.RED}〘 {Fore.WHITE}Google Search For{Fore.YELLOW}: {Fore.BLUE}{username} {Fore.RED}〙{Fore.WHITE}\n")
-choice = input(f"{Fore.YELLOW}[{Fore.CYAN}?{Fore.YELLOW}]{Fore.WHITE} Do you want to print the results? {Fore.CYAN}({Fore.WHITE}y{Fore.MAGENTA}/{Fore.WHITE}n{Fore.CYAN}){Fore.YELLOW}:{Fore.WHITE} ").lower()
+choice = input(f"{Fore.YELLOW}[{Fore.CYAN}?{Fore.YELLOW}]{Fore.WHITE} Do you want to save the results? {Fore.CYAN}({Fore.WHITE}y{Fore.MAGENTA}/{Fore.WHITE}n{Fore.CYAN}){Fore.YELLOW}:{Fore.WHITE} ").lower()
 if choice == "y":
     with open("usrassosiation.txt", "w") as f:
         for urlx in googlesearch.search(username):
