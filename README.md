@@ -1,5 +1,5 @@
 # Vulture
-is a unique username search tools witch validates if username exists on websites located in a urls.txt file.
+is a unique username search tool witch validates if username exists on websites located in a urls.txt file.
 it also looks for domains with the username contained in it.
 it aswell searches for the username with a advanced google search method.
 
