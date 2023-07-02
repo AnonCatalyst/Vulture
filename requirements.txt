@@ -6,3 +6,5 @@ bs4
 fake_useragent
 urllib3
 flask
+instaloader
+pandas
