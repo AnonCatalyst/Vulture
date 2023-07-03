@@ -177,7 +177,7 @@ if choice == "y":
 else:
     print(f"""{Fore.CYAN}> {Fore.RED}Results not saved and only {Fore.GREEN}15 results{Fore.RED} will be shown
 unless you chose to {Fore.BLUE}save results{Fore.YELLOW}. {Fore.MAGENTA}This will prevent {Fore.RED}error {Fore.YELLOW}429{Fore.RED} too
-many requests from happening sooner witch allows you to search
+many requests from happening sooner which allows you to search
 more until googles {Fore.MAGENTA}search cap of 999 {Fore.RED}is reached{Fore.YELLOW}...""")
     for urlx in googlesearch.search(username, 15):
         print(f"{Fore.CYAN}⊶ :{Fore.WHITE}",urlx)
