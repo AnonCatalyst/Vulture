@@ -18,6 +18,16 @@ python vulture.py
 ```
 > [ Vulture ] Has a total of 64 urls to search with and I plan to add more soon.
 
+# Features
+- Username Search
+- keyword googlesearch
+- advanced google search
+- instagram & github profile information
+- instagram profile download
+- checks for metadata in img files from the folder created by the instagram profile download
+- threading for speed
+- status code for profile page validation
+
 # Coming Features
 > More profile pages to gather information from!
 -
