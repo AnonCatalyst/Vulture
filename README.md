@@ -10,6 +10,7 @@ and has been tested on Windows/Android/Linux for all around user support.
 
 # How to use:
 ```
+sudo apt install exiftool
 git clone https://github.com/AnonCatalyst/Vulture.git
 cd Vulture
 pip install -r requriments.txt
