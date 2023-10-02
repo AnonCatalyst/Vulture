@@ -1,3 +1,8 @@
+
+
+## Discontinued
+// Do to a problem with the googlesearch module suddenly not working with no explanation on why. This tool is now discontinued. Instead look forward to a new tool thats in development. Ominis Osint Tool is in development. it will have all the features of Vulture but it will be more advanced and have more to it. stay tuned for the Ominis Osint Tool drop as a enhanced better version of Vulture
+
 # Vulture
 is a unique username search tool witch validates if username exists on websites located in a urls.txt file.
 it also looks for domains with the username contained in it.
